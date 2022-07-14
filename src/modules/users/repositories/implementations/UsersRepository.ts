@@ -32,7 +32,9 @@ class UsersRepository implements IUsersRepository {
   }
 
   findById(id: string): User | undefined {
-    // Complete aqui
+    const findUserById = this.users.find((user) => user.id === id);
+
+    return findUserById;
   }
 
   findByEmail(email: string): User | undefined {
@@ -42,7 +44,15 @@ class UsersRepository implements IUsersRepository {
   }
 
   turnAdmin(receivedUser: User): User {
-    // Complete aqui
+    const user = new User();
+
+    Object.assign(user, {
+      receivedUser,
+    });
+
+    this.users.push(user);
+
+    return user;
   }
 
   list(): User[] {
