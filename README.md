@@ -1,4 +1,4 @@
-# 2022JulhoRocketseat_Desafio01-Intro_SOLID
+# Desafios - Intro_SOLID & Documentando com Swagger
 Trilha NodeJS - Ignite: ChapterII: Desafio 01 - Introdução ao SOLID
 
 ## Rotas da aplicação
