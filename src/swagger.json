@@ -1,0 +1,284 @@
+{
+  "openapi": "3.0.0",
+
+  "info": {
+    "title": "Atlas",
+    "description": "Essa é uma documentação sobre a API Atlas",
+    "version": "1.0.0"
+  },
+
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Cria um novo usuário",
+        "requestBody": {
+          "description": "*Campos obrigatorios para a criação de um usuário*",
+          "required": true,
+          "content":  {
+            "applicaton/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "required": true },
+                  "email": { "type": "string", "required": true }
+                },
+                "example": {
+                  "name": "Matheus Lucas",
+                  "email": "matheus@example.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created",
+            "content": {
+              "applicaton/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type":"string" },
+                    "name": { "type":"string" },
+                    "email": { "type":"string" },
+                    "admin": { "type": "boolean" },
+                    "created_at": { "type":"string" },
+                    "updated_at": { "type":"string" }
+                  },
+                  "example": {
+                    "id": "123e4567-e89b-12d3-a456-426614174000",
+                    "name": "Matheus Lucas",
+                    "email": "matheus@example.com",
+                    "admin": false,
+                    "created_at": "2021-05-14T22:10:43.992Z",
+                    "updated_at": "2021-05-14T22:10:43.992Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Created",
+            "content": {
+              "applicaton/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type":"string" }
+                  },
+                  "example": {
+                    "error": "This email is already in use"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "get": {
+        "tags": ["users"],
+        "summary": "Retorna todos os usuários",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "user_id": { "type": "string", "format": "uuid" }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "applicaton/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type":"string" },
+                      "name": { "type":"string" },
+                      "email": { "type":"string" },
+                      "admin": { "type": "boolean" },
+                      "created_at": { "type":"string" },
+                      "updated_at": { "type":"string" }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": "123e4567-e89b-12d3-a456-426614174000",
+                      "name": "Matheus Lucas",
+                      "email": "matheus@example.com",
+                      "admin": false,
+                      "created_at": "2021-05-14T22:10:43.992Z",
+                      "updated_at": "2021-05-14T22:10:43.992Z"
+                    },
+                    {
+                      "id": "145e4547-e31b-21r3-a456-426614174000",
+                      "name": "Fernanda Souza",
+                      "email": "fernanda@example.com",
+                      "admin": true,
+                      "created_at": "2021-05-10T22:10:43.992Z",
+                      "updated_at": "2021-05-10T22:10:43.992Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "usuário sem permissão ou usuário não encontrado",
+            "content": {
+              "applicaton/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type":"string" }
+                  },
+                  "example": {
+                    "error": "You need to be an administrator to list all users."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Retorna um usuário específico",
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "user_id": { "type": "string" }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "applicaton/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type":"string", "format": "uuid" },
+                    "name": { "type":"string" },
+                    "email": { "type":"string" },
+                    "admin": { "type": "boolean" },
+                    "created_at": { "type":"string" },
+                    "updated_at": { "type":"string" }
+                  },
+                  "example": {
+                    "id": "123e4567-e89b-12d3-a456-426614174000",
+                    "name": "Matheus Lucas",
+                    "email": "matheus@example.com",
+                    "admin": false,
+                    "created_at": "2021-05-14T22:10:43.992Z",
+                    "updated_at": "2021-05-14T22:10:43.992Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Created",
+            "content": {
+              "applicaton/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type":"string" }
+                  },
+                  "example": {
+                    "error": "User not found!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users/{user_id}/admin": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Torna admin um usuário",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "user_id": { "type": "string", "format": "uuid" }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "applicaton/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type":"string", "format": "uuid" },
+                    "name": { "type":"string" },
+                    "email": { "type":"string" },
+                    "admin": { "type": "boolean" },
+                    "created_at": { "type":"string" },
+                    "updated_at": { "type":"string" }
+                  },
+                  "example": {
+                    "id": "123e4567-e89b-12d3-a456-426614174000",
+                    "name": "Matheus Lucas",
+                    "email": "matheus@example.com",
+                    "admin": true,
+                    "created_at": "2021-05-14T22:10:43.992Z",
+                    "updated_at": "2021-05-14T22:10:43.992Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Created",
+            "content": {
+              "applicaton/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type":"string" }
+                  },
+                  "example": {
+                    "error": "User not found!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "tags": [
+    {
+      "name": "users",
+      "description": "*Gerenciamento de usuários*"
+    }
+  ]
+  
+}
